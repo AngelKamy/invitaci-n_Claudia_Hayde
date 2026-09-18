@@ -233,15 +233,10 @@
            ========================================== */
         .wax-seal {
             position: absolute;
-            
-            /* 👇 AJUSTE DE POSICIÓN 👇 
-               Si el sello sigue un poco arriba o abajo, cambia este valor (ej. 110px o 120px) 
-               hasta que coincida exactamente con la punta de tu imagen del sobre. */
             bottom: -20px; 
-            
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;  /* Reducido levemente para mayor realismo */
+            width: 200px;  
             height: 200px;
             z-index: 5;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -640,6 +635,15 @@
     </header>
 
     <!-- ==========================================
+         IMAGEN EDITORIAL DESTACADA
+         ========================================== -->
+    <section style="padding-top: 2rem; padding-bottom: 2rem;">
+        <div class="animated-element" style="max-width: 900px; margin: 0 auto; border-radius: var(--radius-small); overflow: hidden; box-shadow: var(--shadow-soft); border: 1px solid var(--color-secondary);">
+            <img src="./assets/Foto de mami.jpeg" alt="Fotografía de Claudia Hayde" style="width: 100%; height: auto; display: block; object-fit: cover;">
+        </div>
+    </section>
+
+    <!-- ==========================================
          PRESENTACIÓN
          ========================================== -->
     <section class="text-center">
@@ -795,7 +799,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- ==========================================
          CONFIRMACIÓN DE ASISTENCIA (RSVP)
