@@ -1031,6 +1031,7 @@
 
         <select
           name="asistencia"
+          id="asistencia-select"
           required
           style="
             padding: 1rem;
@@ -1047,15 +1048,16 @@
           <option value="No">No podré asistir</option>
         </select>
 
-        <!-- NUEVO CAMPO: Cantidad de personas -->
+        <!-- NUEVO CAMPO: Cantidad de personas (Oculto por defecto y sin required) -->
         <input
           type="number"
           name="cantidad"
+          id="cantidad-input"
           placeholder="¿Cuántas personas asisten? (Ej: 2)"
           min="0"
           max="10"
-          required
           style="
+            display: none;
             padding: 1rem;
             border: 1px solid var(--color-secondary);
             border-radius: var(--radius-small);
@@ -1308,19 +1310,17 @@
         btnAppleCal.addEventListener("click", function (e) {
           e.preventDefault();
 
-          // Aquí se estructuran los datos del archivo .ics
           const icsContent = `BEGIN:VCALENDAR
-          VERSION:2.0
-          BEGIN:VEVENT
-          SUMMARY:60 Años - Claudia Hayde
-          DTSTART;TZID=America/Mexico_City:20261128T150000
-          DTEND;TZID=America/Mexico_City:20261128T210000
-          LOCATION:Salón Arcoiris, Av Río Papaloapan 715, Pachuca de Soto, Hgo.
-          DESCRIPTION:¡Acompáñanos a celebrar los 60 años de Claudia Hayde!
-          END:VEVENT
-          END:VCALENDAR`;
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:60 Años - Claudia Hayde
+DTSTART;TZID=America/Mexico_City:20261128T150000
+DTEND;TZID=America/Mexico_City:20261128T210000
+LOCATION:Salón Arcoiris, Av Río Papaloapan 715, Pachuca de Soto, Hgo.
+DESCRIPTION:¡Acompáñanos a celebrar los 60 años de Claudia Hayde!
+END:VEVENT
+END:VCALENDAR`;
 
-          // Convertimos el texto en un archivo descargable
           const blob = new Blob([icsContent], {
             type: "text/calendar;charset=utf-8",
           });
@@ -1333,45 +1333,73 @@
           link.click();
           document.body.removeChild(link);
         });
-        // --- 7. FORMULARIO RSVP A GOOGLE SHEETS ---
-            const rsvpForm = document.getElementById('rsvp-form');
-            const formMsg = document.getElementById('form-msg');
-            const btnSubmit = document.getElementById('btn-submit');
+      } // <-- AQUÍ SE CIERRA CORRECTAMENTE LA SECCIÓN 6
 
-            if (rsvpForm) {
-                rsvpForm.addEventListener('submit', e => {
-                    e.preventDefault();
-                    
-                    // Estado de carga
-                    btnSubmit.textContent = 'Enviando...';
-                    btnSubmit.disabled = true;
+      // --- 7. FORMULARIO RSVP A GOOGLE SHEETS ---
+      const rsvpForm = document.getElementById("rsvp-form");
+      const formMsg = document.getElementById("form-msg");
+      const btnSubmit = document.getElementById("btn-submit");
 
-                    // PEGA AQUÍ TU NUEVA URL DE APPS SCRIPT
-                    const scriptURL = 'https://script.google.com/macros/s/AKfycbzbKQiolUYxPTRJoWM4x9w5HTked0d1_htbLZQdel_L3Vi_SpeBAXkn2auQWhprSpYP-Q/exec'; 
-                    const formData = new FormData(rsvpForm);
+      // Elementos para la lógica de mostrar/ocultar
+      const asistenciaSelect = document.getElementById("asistencia-select");
+      const cantidadInput = document.getElementById("cantidad-input");
 
-                    fetch(scriptURL, { 
-                        method: 'POST', 
-                        body: formData 
-                    })
-                    .then(response => {
-                        formMsg.style.display = 'block';
-                        formMsg.style.color = '#5B2C3A';
-                        formMsg.textContent = '¡Gracias! Tu respuesta ha sido registrada.';
-                        rsvpForm.reset();
-                        btnSubmit.textContent = 'Enviar Respuesta';
-                        btnSubmit.disabled = false;
-                    })
-                    .catch(error => {
-                        console.error('Error al enviar:', error);
-                        formMsg.style.display = 'block';
-                        formMsg.style.color = 'red';
-                        formMsg.textContent = 'Hubo un error de conexión. Intenta de nuevo.';
-                        btnSubmit.textContent = 'Enviar Respuesta';
-                        btnSubmit.disabled = false;
-                    });
-                });
-            }
+      // Lógica para el menú desplegable
+      if (asistenciaSelect && cantidadInput) {
+        asistenciaSelect.addEventListener("change", (e) => {
+          if (e.target.value === "Sí") {
+            cantidadInput.style.display = "block";
+            cantidadInput.required = true;
+            cantidadInput.value = "";
+          } else {
+            cantidadInput.style.display = "none";
+            cantidadInput.required = false;
+            cantidadInput.value = "0";
+          }
+        });
+      }
+
+      // Lógica para enviar el formulario a Google Sheets
+      if (rsvpForm) {
+        rsvpForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          btnSubmit.textContent = "Enviando...";
+          btnSubmit.disabled = true;
+
+          const scriptURL =
+            "https://script.google.com/macros/s/AKfycbzbKQiolUYxPTRJoWM4x9w5HTked0d1_htbLZQdel_L3Vi_SpeBAXkn2auQWhprSpYP-Q/exec";
+          const formData = new FormData(rsvpForm);
+
+          fetch(scriptURL, {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              formMsg.style.display = "block";
+              formMsg.style.color = "#5B2C3A";
+              formMsg.textContent =
+                "¡Gracias! Tu respuesta ha sido registrada.";
+              rsvpForm.reset();
+
+              // Volvemos a ocultar el campo de cantidad después de enviar
+              cantidadInput.style.display = "none";
+              cantidadInput.required = false;
+              cantidadInput.value = "";
+
+              btnSubmit.textContent = "Enviar Respuesta";
+              btnSubmit.disabled = false;
+            })
+            .catch((error) => {
+              console.error("Error al enviar:", error);
+              formMsg.style.display = "block";
+              formMsg.style.color = "red";
+              formMsg.textContent =
+                "Hubo un error de conexión. Intenta de nuevo.";
+              btnSubmit.textContent = "Enviar Respuesta";
+              btnSubmit.disabled = false;
+            });
+        });
       }
     </script>
   </body>
