@@ -16,6 +16,7 @@
       content="Acompáñanos a celebrar los 60 años de Claudia Hayde. 28 de noviembre de 2026."
     />
     <meta property="og:type" content="website" />
+    <link rel="icon" href="./assets/ico/icono claus.png" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -798,10 +799,34 @@
           </p>
         </div>
       </div>
-      <div class="text-center animated-element" style="margin-top: 3rem">
-        <a href="#" class="btn" aria-label="Agregar a Google Calendar"
-          >Agregar al Calendario</a
+      <div
+        class="text-center animated-element"
+        style="
+          margin-top: 3rem;
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        "
+      >
+        <!-- Botón para Android / Google Calendar -->
+        <a
+          href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=60+A%C3%B1os+-+Claudia+Hayde&dates=20261128T150000/20261128T210000&ctz=America/Mexico_City&details=%C2%A1Acomp%C3%A1%C3%B1anos+a+celebrar+los+60+a%C3%B1os+de+Claudia+Hayde!&location=Sal%C3%B3n+Arcoiris,+Av+R%C3%ADo+Papaloapan+715,+Issste,+Pachuca+de+Soto"
+          target="_blank"
+          class="btn btn-solid"
+          aria-label="Agregar a Google Calendar"
         >
+          Google Calendar
+        </a>
+
+        <!-- Botón para iPhone / Apple Calendar / Outlook -->
+        <button
+          id="btn-apple-cal"
+          class="btn"
+          aria-label="Agregar a Apple Calendar"
+        >
+          Apple / Outlook
+        </button>
       </div>
     </section>
 
@@ -1014,7 +1039,9 @@
         <p style="margin-bottom: 2rem">
           Estamos para ayudarte con cualquier detalle.
         </p>
-        <a href="https://wa.me/5217712903200" class="btn">Contactar por WhatsApp</a>
+        <a href="https://wa.me/5217712903200" class="btn"
+          >Contactar por WhatsApp</a
+        >
       </div>
     </section>
 
@@ -1218,6 +1245,39 @@
           }
         });
       });
+      // --- 6. AGREGAR A CALENDARIO (APPLE / OUTLOOK) ---
+      const btnAppleCal = document.getElementById("btn-apple-cal");
+
+      if (btnAppleCal) {
+        btnAppleCal.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Aquí se estructuran los datos del archivo .ics
+          const icsContent = `BEGIN:VCALENDAR
+          VERSION:2.0
+          BEGIN:VEVENT
+          SUMMARY:60 Años - Claudia Hayde
+          DTSTART;TZID=America/Mexico_City:20261128T150000
+          DTEND;TZID=America/Mexico_City:20261128T210000
+          LOCATION:Salón Arcoiris, Av Río Papaloapan 715, Pachuca de Soto, Hgo.
+          DESCRIPTION:¡Acompáñanos a celebrar los 60 años de Claudia Hayde!
+          END:VEVENT
+          END:VCALENDAR`;
+
+          // Convertimos el texto en un archivo descargable
+          const blob = new Blob([icsContent], {
+            type: "text/calendar;charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+
+          link.href = url;
+          link.setAttribute("download", "Claudia_60_Anos.ics");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      }
     </script>
   </body>
 </html>
