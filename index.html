@@ -994,41 +994,97 @@
     <!-- ==========================================
          CONFIRMACIÓN DE ASISTENCIA (RSVP)
          ========================================== -->
-    <section style="background: var(--color-secondary); max-width: 100%">
-      <div
-        class="animated-element text-center"
-        style="max-width: 600px; margin: 0 auto"
+    <div
+      class="animated-element text-center"
+      style="max-width: 600px; margin: 0 auto"
+    >
+      <h2 class="section-title font-display">Confirma tu Asistencia</h2>
+      <p style="margin-bottom: 3rem">
+        Será un placer compartir este momento contigo. Por favor, confírmanos tu
+        asistencia antes del 10 de Noviembre.
+      </p>
+
+      <form
+        id="rsvp-form"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          max-width: 350px;
+          margin: 0 auto;
+        "
       >
-        <h2 class="section-title font-display">Confirma tu Asistencia</h2>
-        <p style="margin-bottom: 3rem">
-          Será un placer compartir este momento contigo. Por favor, confírmanos
-          tu asistencia antes del 10 de Noviembre.
-        </p>
-        <div
+        <input
+          type="text"
+          name="nombre"
+          placeholder="Tu nombre completo"
+          required
           style="
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--radius-small);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+          "
+        />
+
+        <select
+          name="asistencia"
+          required
+          style="
+            padding: 1rem;
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--radius-small);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            background: var(--color-white);
           "
         >
-          <button class="btn btn-solid" style="width: 100%; max-width: 300px">
-            Sí, confirmaré
-          </button>
-          <button
-            class="btn"
-            style="
-              width: 100%;
-              max-width: 300px;
-              border-color: var(--color-text);
-              color: var(--color-text);
-            "
-          >
-            No podré asistir
-          </button>
-        </div>
-      </div>
-    </section>
+          <option value="" disabled selected>¿Asistirás?</option>
+          <option value="Sí">Sí, confirmaré con gusto</option>
+          <option value="No">No podré asistir</option>
+        </select>
+
+        <!-- NUEVO CAMPO: Cantidad de personas -->
+        <input
+          type="number"
+          name="cantidad"
+          placeholder="¿Cuántas personas asisten? (Ej: 2)"
+          min="0"
+          max="10"
+          required
+          style="
+            padding: 1rem;
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--radius-small);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+          "
+        />
+
+        <button
+          type="submit"
+          class="btn btn-solid"
+          id="btn-submit"
+          style="width: 100%"
+        >
+          Enviar Respuesta
+        </button>
+
+        <p
+          id="form-msg"
+          style="
+            display: none;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-weight: bold;
+          "
+        ></p>
+      </form>
+    </div>
 
     <!-- ==========================================
          CONTACTO
@@ -1277,6 +1333,45 @@
           link.click();
           document.body.removeChild(link);
         });
+        // --- 7. FORMULARIO RSVP A GOOGLE SHEETS ---
+            const rsvpForm = document.getElementById('rsvp-form');
+            const formMsg = document.getElementById('form-msg');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            if (rsvpForm) {
+                rsvpForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    
+                    // Estado de carga
+                    btnSubmit.textContent = 'Enviando...';
+                    btnSubmit.disabled = true;
+
+                    // PEGA AQUÍ TU NUEVA URL DE APPS SCRIPT
+                    const scriptURL = 'https://script.google.com/macros/s/AKfycbzbKQiolUYxPTRJoWM4x9w5HTked0d1_htbLZQdel_L3Vi_SpeBAXkn2auQWhprSpYP-Q/exec'; 
+                    const formData = new FormData(rsvpForm);
+
+                    fetch(scriptURL, { 
+                        method: 'POST', 
+                        body: formData 
+                    })
+                    .then(response => {
+                        formMsg.style.display = 'block';
+                        formMsg.style.color = '#5B2C3A';
+                        formMsg.textContent = '¡Gracias! Tu respuesta ha sido registrada.';
+                        rsvpForm.reset();
+                        btnSubmit.textContent = 'Enviar Respuesta';
+                        btnSubmit.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Error al enviar:', error);
+                        formMsg.style.display = 'block';
+                        formMsg.style.color = 'red';
+                        formMsg.textContent = 'Hubo un error de conexión. Intenta de nuevo.';
+                        btnSubmit.textContent = 'Enviar Respuesta';
+                        btnSubmit.disabled = false;
+                    });
+                });
+            }
       }
     </script>
   </body>
