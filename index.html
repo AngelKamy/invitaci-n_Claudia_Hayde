@@ -80,6 +80,10 @@
         display: block;
       }
 
+      #perfil{
+        border-radius: 10px;
+      }
+
       a {
         text-decoration: none;
         color: inherit;
@@ -673,7 +677,7 @@
          ========================================== -->
     <audio id="bg-music" loop>
       <source
-        src="./assets/audio/Marcos Witt - Cuan Bello Es El Señor (Videolyric).mp3"
+        src="./assets/audio/The-Wedding.Cinematic Music By Brian Withycombe,.mp3"
         type="audio/mpeg"
       />
     </audio>
@@ -736,7 +740,7 @@
           border: 1px solid var(--color-secondary);
         "
       >
-        <img
+        <img id="perfil"
           src="./assets/img/Foto de mami.jpeg"
           alt="Fotografía de Claudia Hayde"
           style="width: 100%; height: auto; display: block; object-fit: cover"
@@ -898,98 +902,47 @@
       </div>
     </section>
 
-    <!-- ==========================================
-         DRESS CODE
-         ========================================== -->
-    <section class="dress-code">
-      <div class="dress-code-content animated-element">
-        <div>
-          <h2 class="section-title font-display">Dress Code</h2>
-          <h3
-            class="section-subtitle"
-            style="text-align: left; margin-bottom: 1.5rem"
-          >
-            Elegancia y Sofisticación Profunda
-          </h3>
-          <p style="font-size: 1.1rem; margin-bottom: 2rem">
-            Una celebración especial merece una presencia igualmente especial.
-            Te invitamos a acompañarnos con tu estilo más refinado.
-          </p>
-        </div>
-        <div class="dress-code-image">
-          <div style="text-align: center; opacity: 0.5">
-            <span><img src="./assets/img/dress code.jpg" alt="" /></span>
-            <br /><span style="font-size: 0.8rem">Imagen de referencia</span>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- ==========================================
+     DRESS CODE
+     ========================================== -->
+<section class="dress-code">
+  <div class="dress-code-content animated-element">
+    <div>
+      <h2 class="section-title font-display">Dress Code</h2>
 
-    <!-- ==========================================
-         ITINERARIO
-         ========================================== -->
-    <section>
-      <div class="animated-element text-center">
-        <h2 class="section-title font-display">Itinerario</h2>
-        <p class="section-subtitle">El desarrollo de la celebración</p>
-      </div>
-      <div class="timeline animated-element">
-        <div class="timeline-item">
-          <div class="timeline-time">15:00</div>
-          <h4>Recepción</h4>
-          <p style="font-size: 0.9rem">[ACTIVIDAD / PLACEHOLDER]</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">16:00</div>
-          <h4>Celebración</h4>
-          <p style="font-size: 0.9rem">[ACTIVIDAD / PLACEHOLDER]</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">17:00</div>
-          <h4>Comida</h4>
-          <p style="font-size: 0.9rem">[ACTIVIDAD / PLACEHOLDER]</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">18:30</div>
-          <h4>Brindis</h4>
-          <p style="font-size: 0.9rem">[ACTIVIDAD / PLACEHOLDER]</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">19:00</div>
-          <h4>Música y celebración</h4>
-          <p style="font-size: 0.9rem">[ACTIVIDAD / PLACEHOLDER]</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         REGALOS
-         ========================================== -->
-    <section>
-      <div
-        class="animated-element text-center"
-        style="max-width: 600px; margin: 0 auto"
+      <h3
+        class="section-subtitle"
+        style="text-align: left; margin-bottom: 1.5rem"
       >
-        <h2 class="section-title font-display">Un Detalle Especial</h2>
-        <p style="margin-bottom: 2rem">
-          Tu presencia es nuestro mayor regalo, pero si deseas tener un detalle
-          adicional, dejamos las siguientes opciones:
-        </p>
-        <div
-          class="card"
-          style="
-            background: transparent;
-            border: 1px solid var(--color-secondary);
-          "
-        >
-          <div class="card-icon" style="font-size: 1.5rem">✧</div>
-          <h4 style="margin-bottom: 1rem">[REGALO_1 / CUENTA BANCARIA]</h4>
-          <p style="font-size: 0.9rem">
-            [Datos placeholder para mesa de regalos o cuenta]
-          </p>
-        </div>
+        Semiformal
+      </h3>
+
+      <p style="font-size: 1.1rem; margin-bottom: 1.5rem">
+        Queremos que disfrutes esta celebración sintiéndote cómodo,
+        arreglado y con mucho estilo.
+      </p>
+
+      <p style="font-size: 1.05rem; margin-bottom: 1.5rem">
+        Te sugerimos un look semiformal inspirado en nuestra paleta:
+        <strong>borgoña intenso, negro carbón y beige arena.</strong>
+      </p>
+
+      <p style="font-size: 0.95rem; opacity: 0.8">
+        Puedes elegir cualquiera de estos tonos o combinarlos a tu gusto.
+      </p>
+    </div>
+
+    <div class="dress-code-image">
+      <div style="text-align: center; opacity: 0.85">
+        <span>
+          <img src="./assets/img/dress code.jpg" alt="Referencia de dress code semiformal" />
+        </span>
+        <br />
+        <span style="font-size: 0.8rem">Imagen de referencia</span>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- ==========================================
          CONFIRMACIÓN DE ASISTENCIA (RSVP)
@@ -1121,10 +1074,10 @@
             margin-bottom: 2rem;
           "
         >
-          60 Años
+          Gracias por ser parte de mi vida
         </p>
         <p style="font-family: var(--font-body); font-style: italic">
-          Gracias por ser parte de esta historia.
+          Todos los derechos reservados. | Diseñado por The Fixers ❤️  para servir mejor
         </p>
         <p style="margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.2em">
           28 · 11 · 2026
